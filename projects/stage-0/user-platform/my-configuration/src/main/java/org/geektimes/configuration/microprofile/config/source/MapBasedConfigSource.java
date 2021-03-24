@@ -24,11 +24,22 @@ public abstract class MapBasedConfigSource implements ConfigSource {
         this.source = getProperties();
     }
 
+    protected MapBasedConfigSource(String name, int ordinal, boolean laze) {
+        this.name = name;
+        this.ordinal = ordinal;
+        if (!laze) {
+            this.source = getProperties();
+        } else {
+            source = null;
+        }
+    }
+
     /**
      * 获取配置数据 Map
      *
      * @return 不可变 Map 类型的配置数据
      */
+    @Override
     public final Map<String, String> getProperties() {
         Map<String,String> configData = new HashMap<>();
         try {

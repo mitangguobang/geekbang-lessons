@@ -10,12 +10,14 @@ import javax.management.ObjectName;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 import java.lang.management.ManagementFactory;
 
 /**
  * {@link ComponentContext} 初始化器
  * ContextLoaderListener
  */
+@WebListener
 public class ComponentContextInitializerListener implements ServletContextListener {
 
     private ServletContext servletContext;
