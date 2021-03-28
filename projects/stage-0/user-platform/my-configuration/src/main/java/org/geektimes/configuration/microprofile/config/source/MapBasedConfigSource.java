@@ -24,16 +24,6 @@ public abstract class MapBasedConfigSource implements ConfigSource {
         this.configData = new HashMap<>();
     }
 
-    protected MapBasedConfigSource(String name, int ordinal, boolean laze) {
-        this.name = name;
-        this.ordinal = ordinal;
-        if (!laze) {
-            this.source = getProperties();
-        } else {
-            source = null;
-        }
-    }
-
     /**
      * 获取配置数据 Map
      *

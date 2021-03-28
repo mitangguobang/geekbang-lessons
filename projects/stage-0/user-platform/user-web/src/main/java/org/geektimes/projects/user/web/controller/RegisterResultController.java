@@ -1,7 +1,7 @@
 package org.geektimes.projects.user.web.controller;
 
 import org.geektimes.bo.ReturnValue;
-import org.geektimes.context.ComponentContext;
+import org.geektimes.context.ClassicComponentContext;
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.service.UserServiceImpl;
 import org.geektimes.web.mvc.controller.PageController;
@@ -21,7 +21,7 @@ import javax.ws.rs.Path;
 @Path("/registerDo")
 public class RegisterResultController implements PageController {
 
-    private UserServiceImpl userService = ComponentContext.getInstance().getComponent("bean/UserService");
+    private UserServiceImpl userService = ClassicComponentContext.getInstance().getComponent("bean/UserService");
     @Override
     @GET
     @POST
