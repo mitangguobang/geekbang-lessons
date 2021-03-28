@@ -5,18 +5,16 @@ import org.geektimes.configuration.microprofile.config.source.MapBasedConfigSour
 import javax.servlet.ServletContext;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.Set;
+
+import static java.lang.String.format;
 
 public class ServletContextConfigSource extends MapBasedConfigSource {
 
     private final ServletContext servletContext;
 
-    private final Map<String, String> source;
-
     public ServletContextConfigSource(ServletContext servletContext) {
-        super("ServletContext Init Parameters", 500, true);
+        super(format("ServletContext[path:%s] Init Parameters", servletContext.getContextPath()), 500);
         this.servletContext = servletContext;
-        this.source = getProperties();
     }
 
     @Override
@@ -26,15 +24,5 @@ public class ServletContextConfigSource extends MapBasedConfigSource {
             String parameterName = parameterNames.nextElement();
             configData.put(parameterName, servletContext.getInitParameter(parameterName));
         }
-    }
-
-    @Override
-    public Set<String> getPropertyNames() {
-        return source.keySet();
-    }
-
-    @Override
-    public String getValue(String propertyName) {
-        return source.get(propertyName);
     }
 }

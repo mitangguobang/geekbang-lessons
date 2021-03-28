@@ -14,37 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.geektimes.function;
+package org.geektimes.rest.util;
 
-import java.util.function.Function;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
- * A function interface for action with {@link Throwable}
- *
- * @see Function
- * @see Throwable
+ * @author <a href="mailto:mercyblitz@gmail.com">Mercy</a>
+ * @since
  */
-@FunctionalInterface
-public interface ThrowableAction {
+public interface Maps {
 
-    /**
-     * Executes the action
-     *
-     * @throws Throwable if met with error
-     */
-    void execute() throws Throwable;
-
-    /**
-     * Executes {@link ThrowableAction}
-     *
-     * @param action {@link ThrowableAction}
-     * @throws RuntimeException wrap {@link Exception} to {@link RuntimeException}
-     */
-    static void execute(ThrowableAction action) throws RuntimeException {
-        try {
-            action.execute();
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
+    static Map of(Object... values) {
+        Map map = new LinkedHashMap();
+        int length = values.length;
+        for (int i = 0; i < length; ) {
+            map.put(values[i++], values[i++]);
         }
+        return map;
     }
 }

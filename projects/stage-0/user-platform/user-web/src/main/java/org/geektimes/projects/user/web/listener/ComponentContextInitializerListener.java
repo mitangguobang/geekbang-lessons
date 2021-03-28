@@ -1,5 +1,6 @@
 package org.geektimes.projects.user.web.listener;
 
+import org.geektimes.context.ClassicComponentContext;
 import org.geektimes.context.ComponentContext;
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.management.UserManager;
@@ -14,7 +15,7 @@ import javax.servlet.annotation.WebListener;
 import java.lang.management.ManagementFactory;
 
 /**
- * {@link ComponentContext} 初始化器
+ * {@link ClassicComponentContext} 初始化器
  * ContextLoaderListener
  */
 @WebListener
@@ -25,15 +26,15 @@ public class ComponentContextInitializerListener implements ServletContextListen
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         this.servletContext = sce.getServletContext();
-        ComponentContext context = new ComponentContext();
+        ClassicComponentContext context = new ClassicComponentContext();
         context.init(servletContext);
         registerMBean();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-//        ComponentContext context = ComponentContext.getInstance();
-//        context.destroy();
+        ComponentContext context = ClassicComponentContext.getInstance();
+        context.destroy();
     }
 
     public void registerMBean() {
