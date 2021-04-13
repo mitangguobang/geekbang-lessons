@@ -13,6 +13,7 @@ import java.util.StringJoiner;
 
 public class UserServiceImpl implements UserService {
 
+    // Java CDI
     @Resource(name = "bean/EntityManager")
     private EntityManager entityManager;
 

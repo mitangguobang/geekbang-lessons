@@ -34,6 +34,12 @@
             <version>${revision}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.geekbang.projects</groupId>
+            <artifactId>my-cache</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
         <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -54,6 +60,11 @@
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
         </dependency>
 
         <dependency>
@@ -90,29 +101,35 @@
             <artifactId>activemq-all</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.eclipse.microprofile.config</groupId>
-            <artifactId>microprofile-config-api</artifactId>
-        </dependency>
 
+        <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <!-- jolokia -->
+        <!-- Runtime Dependencies -->
+
+        <!-- Apache Tomcat -->
         <dependency>
-            <groupId>org.jolokia</groupId>
-            <artifactId>jolokia-core</artifactId>
-            <version>1.6.2</version>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-catalina-ha</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.jolokia</groupId>
-            <artifactId>jolokia-client-java</artifactId>
-            <version>1.6.2</version>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-dbcp</artifactId>
+            <scope>runtime</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
     <profiles>
@@ -142,6 +159,9 @@
                                     <!-- ServletContext 路径 -->
                                     <path>/</path>
                                     <enableNaming>true</enableNaming>
+                                    <tomcatConfigurationFilesDirectory>
+                                        src/main/webapp/META-INF/conf/
+                                    </tomcatConfigurationFilesDirectory>
                                 </configuration>
                             </execution>
                         </executions>
