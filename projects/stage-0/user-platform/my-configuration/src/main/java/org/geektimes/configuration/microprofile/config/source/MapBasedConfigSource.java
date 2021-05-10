@@ -31,13 +31,20 @@ public abstract class MapBasedConfigSource implements ConfigSource {
      */
     @Override
     public final Map<String, String> getProperties() {
+        return Collections.unmodifiableMap(getConfigData());
+    }
+
+    protected Map<String, String> getConfigData() {
         try {
-            prepareConfigData(configData);
+            if (configData.isEmpty()) {
+                prepareConfigData(configData);
+            }
         } catch (Throwable cause) {
             throw new IllegalStateException("准备配置数据发生错误", cause);
         }
-        return Collections.unmodifiableMap(configData);
+        return configData;
     }
+
 
     /**
      * 准备配置数据
@@ -64,7 +71,7 @@ public abstract class MapBasedConfigSource implements ConfigSource {
 
     @Override
     public String getValue(String propertyName) {
-        return configData.get(propertyName);
+        return getConfigData().get(propertyName);
     }
 
 }
