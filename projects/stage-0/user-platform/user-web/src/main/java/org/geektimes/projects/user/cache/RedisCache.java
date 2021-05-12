@@ -21,6 +21,8 @@ import redis.clients.jedis.Jedis;
 
 import javax.cache.CacheException;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
@@ -37,11 +39,17 @@ public class RedisCache implements Cache {
 
     private final Jedis jedis;
 
+    private final byte[] prefixBytes;
+
+    private final byte[] namespaceBytes;
+
     public RedisCache(String name, Jedis jedis) {
         Objects.requireNonNull(name, "The 'name' argument must not be null.");
         Objects.requireNonNull(jedis, "The 'jedis' argument must not be null.");
         this.name = name;
         this.jedis = jedis;
+        this.prefixBytes = serialize(this.name + ":");
+        this.namespaceBytes = serialize("namespace:" + this.name);
     }
 
 
@@ -57,13 +65,13 @@ public class RedisCache implements Cache {
 
     @Override
     public ValueWrapper get(Object key) {
-        byte[] keyBytes = serialize(key);
+        byte[] keyBytes = getKeyBytes(key);
         byte[] valueBytes = jedis.get(keyBytes);
         return () -> deserialize(valueBytes);
     }
 
     @Override
-    public <T> T get(Object key, Class<T> type) {
+    public <T> T get(Object key, Class<T> type)  {
         return null;
     }
 
@@ -74,11 +82,12 @@ public class RedisCache implements Cache {
 
     @Override
     public void put(Object key, Object value) {
-        byte[] keyBytes = serialize(key);
+        byte[] keyBytes = getKeyBytes(key);
         byte[] valueBytes = serialize(value);
         jedis.set(keyBytes, valueBytes);
+        jedis.lpush(namespaceBytes, keyBytes);
     }
-
+    
     @Override
     public void evict(Object key) {
         byte[] keyBytes = serialize(key);
@@ -90,6 +99,11 @@ public class RedisCache implements Cache {
         // Redis 是否支持 namespace
         // name:key
         // String 类型的 key :
+        List<byte[]> list = jedis.lrange(namespaceBytes, 0L, jedis.llen(namespaceBytes));
+        if (list != null && !list.isEmpty()) {
+            list.forEach(jedis::del);
+        }
+        jedis.del(namespaceBytes);
     }
 
     // 是否可以抽象出一套序列化和反序列化的 API
@@ -121,5 +135,18 @@ public class RedisCache implements Cache {
             throw new CacheException(e);
         }
         return value;
+    }
+
+
+    private byte[] getKeyBytes(Object key) {
+        byte[] keyBytes = serialize(key);
+        return byteMerger(prefixBytes, keyBytes);
+    }
+
+    protected byte[] byteMerger(byte[] prefixBytes, byte[] sourceBytes) {
+        byte[] result = new byte[prefixBytes.length + sourceBytes.length];
+        System.arraycopy(prefixBytes, 0, result, 0, prefixBytes.length);
+        System.arraycopy(sourceBytes, 0, result, prefixBytes.length, sourceBytes.length);
+        return result;
     }
 }

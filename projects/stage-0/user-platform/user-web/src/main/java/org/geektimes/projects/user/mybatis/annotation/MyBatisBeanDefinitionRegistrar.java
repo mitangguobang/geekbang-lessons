@@ -24,6 +24,7 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
+import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
@@ -56,6 +57,14 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         beanDefinitionBuilder.addPropertyValue("mapperLocations", attributes.get("mapperLocations"));
         beanDefinitionBuilder.addPropertyValue("environment", resolvePlaceholder(attributes.get("environment")));
         // 自行添加其他属性
+        String typeAliasesPackage = attributes.get("typeAliasesPackage").toString();
+        if (StringUtils.hasText(typeAliasesPackage)) {
+            beanDefinitionBuilder.addPropertyValue("typeAliasesPackage", typeAliasesPackage);
+        }
+        String configurationProperties = attributes.get("configurationProperties").toString();
+        if (StringUtils.hasText(configurationProperties)) {
+            beanDefinitionBuilder.addPropertyValue("configurationProperties", configurationProperties);
+        }
 
         // SqlSessionFactoryBean 的 BeanDefinition
         BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();

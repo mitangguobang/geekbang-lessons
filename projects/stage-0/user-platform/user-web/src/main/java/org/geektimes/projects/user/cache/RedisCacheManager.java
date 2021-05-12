@@ -42,9 +42,9 @@ public class RedisCacheManager extends AbstractCacheManager {
     }
 
     @Override
-    protected Collection<? extends Cache> loadCaches() {
+    protected Collection<Cache> loadCaches() {
         // 确保接口不返回 null
-        List<? extends Cache> caches = new LinkedList<>();
+        List<Cache> caches = new LinkedList<>();
         prepareCaches(caches);
         return caches;
     }
@@ -54,6 +54,10 @@ public class RedisCacheManager extends AbstractCacheManager {
         return new RedisCache(name, jedis);
     }
 
-    private void prepareCaches(List<? extends Cache> caches) {
+    private void prepareCaches(List<Cache> caches) {
+        Collection<String> cacheNames = this.getCacheNames();
+        for (String cacheName : cacheNames) {
+            caches.add(new RedisCache(cacheName, jedisPool.getResource()));
+        }
     }
 }

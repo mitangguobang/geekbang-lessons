@@ -28,7 +28,8 @@ import org.springframework.context.annotation.ImportResource;
 @EnableMyBatis(dataSource = "dataSource",
         configLocation = "classpath*:META-INF/mybatis/mybatis-config.xml",
         mapperLocations = {"classpath*:sample/config/mappers/**/*.xml"},
-        environment = "development")
+        environment = "development",
+        typeAliasesPackage = "org.geektimes.projects.user.domain")
 @ImportResource(locations = "classpath*:sample/spring-context.xml") // SqlSessionFactoryBean
 public class EnableMyBatisExample {
 }

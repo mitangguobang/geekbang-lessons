@@ -63,4 +63,7 @@ public @interface EnableMyBatis {
 
     String environment() default "SqlSessionFactoryBean";
 
+    String typeAliasesPackage() default "";
+
+    String configurationProperties() default "";
 }
