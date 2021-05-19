@@ -177,8 +177,12 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId></groupId>
-            <artifactId>myba</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
 
     </dependencies>

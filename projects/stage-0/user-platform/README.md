@@ -1,5 +1,20 @@
+## 第 11 周作业
+### 作业
+* 通过 Java 实现两种 (以及) 更多的一致性 Hash 算法 
+* (可选) 实现服务节点动态更新
+  org.apache.dubbo.rpc.cluster.loadbalance.ConsistentHashLoadBalance
+### 实现
+* 一致性 Hash 算法
+  * 方式一：实际节点
+    * org.geektimes.projects.user.consistenthash.NodeArray
+  * 方式二：有虚拟节点
+    * org.geektimes.projects.user.consistenthash.VirtualNodeArray
+  * 测试类：
+    * org.geektimes.configuration.consistenthash.ConsistenthashTest
+  * 存在问题：hashCode()仅是简单处理，节点分布不平均
+
 ## 第 10 周作业
-### 作业题目
+### 作业
 * 完善 @org.geektimes.projects.user.mybatis.annotation.EnableMyBatis 实现，尽可能多地注入 org.mybatis.spring.SqlSessionFactoryBean 中依赖的组件
 ### 实现
 * org.geektimes.projects.user.mybatis.annotation.MyBatisBeanDefinitionRegistrar
