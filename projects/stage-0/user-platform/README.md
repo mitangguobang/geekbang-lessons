@@ -1,3 +1,11 @@
+## 第 12 周作业
+### 作业
+* 将上次 MyBatis@Enable 模块驱动，封装成 SpringBoot Starter 方式。
+* 参考:MyBatis Spring Project 里面会有 Spring Boot 实现
+### 实现
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.geektimes.projects.user.mybatis.annotation.EnableMyBatisExample
+  
 ## 第 11 周作业
 ### 作业
 * 通过 Java 实现两种 (以及) 更多的一致性 Hash 算法 

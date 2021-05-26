@@ -16,7 +16,11 @@
  */
 package org.geektimes.projects.user.mybatis.annotation;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import javax.sql.DataSource;
 
 /**
  * TODO Comment
@@ -32,4 +36,13 @@ import org.springframework.context.annotation.ImportResource;
         typeAliasesPackage = "org.geektimes.projects.user.domain")
 @ImportResource(locations = "classpath*:sample/spring-context.xml") // SqlSessionFactoryBean
 public class EnableMyBatisExample {
+    @Bean
+    public DataSource dataSource(String driverClass, String url, String username, String password) {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driverClass);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
 }

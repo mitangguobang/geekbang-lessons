@@ -41,6 +41,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
 
     private Environment environment;
 
+    @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         BeanDefinitionBuilder beanDefinitionBuilder = genericBeanDefinition(SqlSessionFactoryBean.class);
 
